@@ -163,8 +163,16 @@ export const roleList: Record<RoleId, Role> = {
     accelerator: isMac ? 'Alt+Command+I' : 'Ctrl+Shift+I',
     nonNativeMacOSRole: true,
     webContentsMethod: wc => {
-      const bw = wc.getOwnerBrowserWindow();
-      if (bw) bw.webContents.toggleDevTools();
+      // Get the currently focused webContents instead of just using the owner's
+      const focusedWebContents = wc.getOwnerBrowserWindow()?.webContents || null;
+      // If a focused webContents exists, toggle DevTools for it.
+      if (focusedWebContents) {
+        focusedWebContents.toggleDevTools();
+      } else {
+        // If no focused webContents, fall back to the owner window's webContents.
+        const bw = wc.getOwnerBrowserWindow();
+        if (bw) bw.webContents.toggleDevTools();
+      }
     }
   },
   togglefullscreen: {

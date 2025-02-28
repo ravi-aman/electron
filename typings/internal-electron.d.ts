@@ -127,7 +127,9 @@ declare namespace Electron {
     viewInstanceId: number;
     _setOwnerWindow(w: BaseWindow | null): void;
   }
-
+  interface WebContentsStatic {
+    getFocusedWebContents(): Electron.WebContents | null;
+  }
   interface WebFrameMain {
     _send(internal: boolean, channel: string, args: any): void;
     _sendInternal(channel: string, ...args: any[]): void;
